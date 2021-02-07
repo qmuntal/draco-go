@@ -41,3 +41,19 @@ func main() {
 The libraries in `lib` have been built using: `cmake .. -DDRACO_C_API=ON -DDRACO_POINT_CLOUD_COMPRESSION=ON -DDRACO_MESH_COMPRESSION=ON -DDRACO_STANDARD_EDGEBREAKER=ON -DCMAKE_BUILD_TYPE=Release`
 
 At the moment it only works with the fork [qmuntal/draco](https://github.com/qmuntal/draco).
+
+## Custom Environment
+
+By default `go-draco` is statically linked against the libraries provided in `/lib`. This behavior can be disabled by supplying -tags customenv when building/running your application. When building with this tag you will need to supply the CGO environment variables yourself.
+
+For example:
+
+```bash
+export CGO_LDFLAGS="-L/usr/local/lib -lcdraco"
+```
+
+Please note that you will need to run this line of code one time in your current session in order to build or run the code, in order to setup the needed ENV variables. Once you have done so, you can execute code that uses `go-draco` with your custom environment like this:
+
+```bash
+go run -tags customenv ./example/decode
+```

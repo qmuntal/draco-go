@@ -1,3 +1,4 @@
+// +build !customenv
 package draco
 
 /*
