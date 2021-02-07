@@ -1,8 +1,10 @@
 # go-draco
 
-Go bindings for [google/draco](https://github.com/google/draco).
+The Go-Draco package provides Go language bindings for [google/draco](https://github.com/google/draco). Draco is a library for compressing and decompressing 3D geometric meshes and point clouds.
 
-WIP: This package is experimental. Check [google/draco#467](https://github.com/google/draco/issues/467) for more info.
+The Go-Draco package supports the latest releases of Draco (v1.4.1) on Linux, macOS, and Windows.
+
+The CGO bindings uses a C API that is maintained in its own fork, as the Draco team do not have enough bandwidth to support it. See [google/draco#467](https://github.com/google/draco/pull/663#issuecomment-772802508) for more context.
 
 ## Features
 
