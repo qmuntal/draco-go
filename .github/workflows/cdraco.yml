@@ -39,6 +39,7 @@ jobs:
             -DDRACO_STANDARD_EDGEBREAKER=ON \
             -DCMAKE_BUILD_TYPE=Release ..
         working-directory: ../draco/_gh_build
+        shell: bash
         env:
           CC: ${{ matrix.cc }}
           CXX: ${{ matrix.cxx }}
