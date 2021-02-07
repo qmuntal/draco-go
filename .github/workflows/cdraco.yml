@@ -48,6 +48,6 @@ jobs:
       - run: |
           cp ../draco/_gh_build/libcdraco.a ./lib/${{ matrix.libname }}.a
         shell: bash
-      - run: git checkout -b update-${{ matrix.libname }}-${{ github.event.inputs.tag }}
+      - run: git checkout -b update-lib-${{ github.event.inputs.tag }}
       - run: git commit -m "Update ${{ matrix.libname }} with v${{ github.event.inputs.tag }}"
-      - run: git push -u origin update-${{ matrix.libname }}-${{ github.event.inputs.tag }}
+      - run: git push -u origin update-lib-${{ github.event.inputs.tag }}
