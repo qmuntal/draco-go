@@ -28,9 +28,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
-      - run: git clone --depth 1 --branch ${{ github.event.inputs.tag }} https://github.com/qmuntal/draco.git ../draco
+        with:
+          ref: ${{ github.event.inputs.tag }}
+          fetch-depth: 1
+          repository: qmuntal/draco
       - run: mkdir _gh_build
-        working-directory: ../draco
       - run: |
           cmake -G "${{ matrix.generator }}" \
             -DDRACO_C_API=ON \
@@ -38,20 +40,15 @@ jobs:
             -DDRACO_MESH_COMPRESSION=ON \
             -DDRACO_STANDARD_EDGEBREAKER=ON \
             -DCMAKE_BUILD_TYPE=Release ..
-        working-directory: ../draco/_gh_build
+        working-directory: ./_gh_build
         shell: bash
         env:
           CC: ${{ matrix.cc }}
           CXX: ${{ matrix.cxx }}
       - run: make -j10
-        working-directory: ../draco/_gh_build
-      - run: |
-          cp ../draco/_gh_build/libcdraco.a ./lib/${{ matrix.libname }}.a
-        shell: bash
-      - run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git checkout -b update-lib-${{ github.event.inputs.tag }}
-          git add ./lib/${{ matrix.libname }}.a
-          git commit -m "Update ${{ matrix.libname }} with v${{ github.event.inputs.tag }}"
-          git push -u origin update-lib-${{ github.event.inputs.tag }}
+        working-directory: ./_gh_build
+      - name: Archive binaries
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.libname }}
+          path: ../draco/_gh_build/libcdraco.a
