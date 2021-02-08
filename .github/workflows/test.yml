@@ -20,7 +20,7 @@ jobs:
         go env
         go test -race -covermode atomic -coverprofile profile.cov ./...
       env:
-        CC: gcc
+        CC: gxx
         CXX: gxx
     - name: Send coverage
       uses: shogo82148/actions-goveralls@v1
