@@ -2,6 +2,7 @@
 package draco
 
 /*
+#cgo CXXFLAGS: -std=c++11
 #cgo LDFLAGS: -L${SRCDIR}/lib
 #cgo windows CFLAGS: -DDRACO_STATIC
 #cgo windows,amd64 LDFLAGS: -lcdraco_windows_amd64 -lstdc++
