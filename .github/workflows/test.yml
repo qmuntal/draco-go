@@ -15,11 +15,11 @@ jobs:
         go-version: ${{ matrix.go-version }}
     - name: Checkout code
       uses: actions/checkout@v2
-    - run: go env
-    - run: gcc --version
-    - run: g++ --version
     - name: Test
       run: go test -race -covermode atomic -coverprofile profile.cov ./...
+      env:
+        CC: gcc
+        CXX: gxx
     - name: Send coverage
       uses: shogo82148/actions-goveralls@v1
       with:
