@@ -11,13 +11,13 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            cc: clang
-            cxx: clang++
+            cc: gcc-10
+            cxx: g++-10
             generator: Unix Makefiles
             libname: libcdraco_linux_amd64
           - os: macos-latest
-            cc: clang
-            cxx: clang++
+            cc: gcc-10
+            cxx: gcc-10 
             generator: Unix Makefiles
             libname: libcdraco_darwin_amd64
           - os: windows-latest
