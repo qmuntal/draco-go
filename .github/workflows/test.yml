@@ -9,8 +9,8 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     env:
-      CC: gxx
-      CXX: gxx
+      CC: gcc
+      CXX: g++
     steps:
     - name: Install Go
       uses: actions/setup-go@v2
