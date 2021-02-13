@@ -16,8 +16,8 @@ jobs:
             generator: Unix Makefiles
             libname: libcdraco_linux_amd64
           - os: macos-latest
-            cc: gcc-10
-            cxx: g++-10 
+            cc: clang
+            cxx: clang++
             generator: Unix Makefiles
             libname: libcdraco_darwin_amd64
           - os: windows-latest
