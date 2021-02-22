@@ -21,7 +21,7 @@ This library can be used without any special setup other than having a CGO toolc
 ```go
 import (
   "io/ioutil"
-  "github.com/qmuntal/go-draco"
+  "github.com/qmuntal/draco-go"
 )
 
 func main() {
@@ -44,7 +44,7 @@ The libraries in `lib` have been built using: `cmake .. -DDRACO_POINT_CLOUD_COMP
 
 ## Custom Environment
 
-By default `go-draco` is statically linked against the libraries provided in `/lib`. This behavior can be disabled by supplying -tags customenv when building/running your application. When building with this tag you will need to supply the CGO environment variables yourself.
+By default `draco-go` is statically linked against the libraries provided in `/lib`. This behavior can be disabled by supplying -tags customenv when building/running your application. When building with this tag you will need to supply the CGO environment variables yourself.
 
 For example:
 
@@ -52,7 +52,7 @@ For example:
 export CGO_LDFLAGS="-L/usr/local/lib -lcdraco"
 ```
 
-Please note that you will need to run this line of code one time in your current session in order to build or run the code, in order to setup the needed ENV variables. Once you have done so, you can execute code that uses `go-draco` with your custom environment like this:
+Please note that you will need to run this line of code one time in your current session in order to build or run the code, in order to setup the needed ENV variables. Once you have done so, you can execute code that uses `draco-go` with your custom environment like this:
 
 ```bash
 go run -tags customenv ./example/decode

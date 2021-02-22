@@ -1,3 +1,3 @@
-module github.com/qmuntal/go-draco
+module github.com/qmuntal/draco-go
 
 go 1.15
