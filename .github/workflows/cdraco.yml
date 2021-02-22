@@ -50,6 +50,6 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.libname }}
-          path: _gh_build/libcdraco.a
+          path: _gh_build/libdraco_c.a
           if-no-files-found: error
           retention-days: 5
