@@ -14,17 +14,17 @@ jobs:
             cc: gcc-10
             cxx: g++-10
             generator: Unix Makefiles
-            libname: libcdraco_linux_amd64
+            libname: libdraco_c_linux_amd64
           - os: macos-latest
             cc: clang
             cxx: clang++
             generator: Unix Makefiles
-            libname: libcdraco_darwin_amd64
+            libname: libdraco_c_darwin_amd64
           - os: windows-latest
             cc: x86_64-w64-mingw32-gcc
             cxx: x86_64-w64-mingw32-g++
             generator: MinGW Makefiles
-            libname: libcdraco_windows_amd64
+            libname: libdraco_c_windows_amd64
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
