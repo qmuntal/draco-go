@@ -31,11 +31,10 @@ jobs:
         with:
           ref: ${{ github.event.inputs.tag }}
           fetch-depth: 1
-          repository: qmuntal/draco
+          repository: qmuntal/draco-c
       - run: mkdir _gh_build
       - run: |
           cmake -G "${{ matrix.generator }}" \
-            -DDRACO_C_API=ON \
             -DDRACO_POINT_CLOUD_COMPRESSION=ON \
             -DDRACO_MESH_COMPRESSION=ON \
             -DDRACO_STANDARD_EDGEBREAKER=ON \

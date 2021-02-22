@@ -1,10 +1,10 @@
-# go-draco
+# DRACO GO API
 
 The Go-Draco package provides Go language bindings for [google/draco](https://github.com/google/draco). Draco is a library for compressing and decompressing 3D geometric meshes and point clouds.
 
 The Go-Draco package supports the latest releases of Draco (v1.4.1) on Linux, macOS, and Windows.
 
-The CGO bindings uses a C API that is maintained in its own fork, as the Draco team do not have enough bandwidth to support it. See [google/draco#467](https://github.com/google/draco/pull/663#issuecomment-772802508) for more context.
+The CGO bindings uses a C API that is maintained in [qmuntal/draco-c](https://github.com/qmuntal/draco-c), as the Draco team do not have enough bandwidth to support it. See [google/draco#467](https://github.com/google/draco/pull/663#issuecomment-772802508) for more context.
 
 ## Features
 
@@ -40,9 +40,7 @@ func main() {
 
 ## Development
 
-The libraries in `lib` have been built using: `cmake .. -DDRACO_C_API=ON -DDRACO_POINT_CLOUD_COMPRESSION=ON -DDRACO_MESH_COMPRESSION=ON -DDRACO_STANDARD_EDGEBREAKER=ON -DCMAKE_BUILD_TYPE=Release`
-
-At the moment it only works with the fork [qmuntal/draco](https://github.com/qmuntal/draco).
+The libraries in `lib` have been built using: `cmake .. -DDRACO_POINT_CLOUD_COMPRESSION=ON -DDRACO_MESH_COMPRESSION=ON -DDRACO_STANDARD_EDGEBREAKER=ON -DCMAKE_BUILD_TYPE=Release`
 
 ## Custom Environment
 
@@ -59,3 +57,7 @@ Please note that you will need to run this line of code one time in your current
 ```bash
 go run -tags customenv ./example/decode
 ```
+
+## Third party notice
+
+Builds upon and includes builds of [Google](https://about.google)'s [Draco 3D data compression library](https://google.github.io/draco) (released under the terms of Apache License 2.0).

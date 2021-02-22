@@ -2,10 +2,11 @@
 package draco
 
 /*
-#cgo LDFLAGS: -L${SRCDIR}/lib
-#cgo windows CFLAGS: -DDRACO_STATIC
-#cgo windows,amd64 LDFLAGS: -lcdraco_windows_amd64 -lstdc++
-#cgo linux,amd64 LDFLAGS: -lcdraco_linux_amd64 -lstdc++ -lm
-#cgo darwin,amd64 LDFLAGS: -lcdraco_darwin_amd64 -lstdc++ -lm
+#cgo CFLAGS: -DDRACO_C_STATIC
+#cgo windows,amd64 LDFLAGS: -L${SRCDIR}/lib/windows_amd64
+#cgo linux,amd64 LDFLAGS: -L${SRCDIR}/lib/linux_amd64
+#cgo darwin,amd64 LDFLAGS: -L${SRCDIR}/lib/darwin_amd64
+#cgo LDFLAGS: -ldraco_c -lstdc++
+#cgo !windows LDFLAGS: -lm
 */
 import "C"

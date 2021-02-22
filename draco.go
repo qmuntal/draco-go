@@ -11,6 +11,36 @@ import (
 	"unsafe"
 )
 
+type GeometryType int
+
+const (
+	GT_INVALID GeometryType = iota - 1
+	GT_POSITION
+	GT_NORMAL
+	GT_COLOR
+	GT_TEX_COORD
+	GT_GENERIC
+)
+
+type DataType int
+
+const (
+	DT_INVALID DataType = iota
+	DT_INT8
+	DT_UINT8
+	DT_INT16
+	DT_UINT16
+	DT_INT32
+	DT_UINT32
+	DT_INT64
+	DT_UINT64
+	DT_FLOAT32
+	DT_FLOAT64
+	DT_BOOL
+)
+
+type Face = [3]uint32
+
 type Error struct {
 	Code    int
 	Message string
@@ -31,6 +61,38 @@ func newError(s *C.draco_status) error {
 	C.dracoStatusRelease(s)
 	s = nil
 	return err
+}
+
+type PointAttr struct {
+	ref *C.draco_point_attr
+}
+
+func (pa *PointAttr) Type() GeometryType {
+	return GeometryType(C.dracoPointAttrType(pa.ref))
+}
+
+func (pa *PointAttr) DataType() DataType {
+	return DataType(C.dracoPointAttrDataType(pa.ref))
+}
+
+func (pa *PointAttr) NumComponents() int8 {
+	return int8(C.dracoPointAttrNumComponents(pa.ref))
+}
+
+func (pa *PointAttr) Normalized() bool {
+	return bool(C.dracoPointAttrNormalized(pa.ref))
+}
+
+func (pa *PointAttr) ByteStride() int64 {
+	return int64(C.dracoPointAttrByteStride(pa.ref))
+}
+
+func (pa *PointAttr) ByteOffset() int64 {
+	return int64(C.dracoPointAttrByteOffset(pa.ref))
+}
+
+func (pa *PointAttr) UniqueID() uint32 {
+	return uint32(C.dracoPointAttrUniqueId(pa.ref))
 }
 
 type Mesh struct {
@@ -57,13 +119,25 @@ func (m *Mesh) NumPoints() uint32 {
 	return uint32(C.dracoMeshNumPoints(m.ref))
 }
 
-func (m *Mesh) Faces(buffer [][3]uint32) [][3]uint32 {
+func (m *Mesh) NumAttrs() int32 {
+	return int32(C.dracoMeshNumAttrs(m.ref))
+}
+
+func (m *Mesh) Faces(buffer []Face) []Face {
 	n := m.NumFaces()
 	if len(buffer) < int(n) {
-		buffer = append(buffer, make([][3]uint32, int(n)-len(buffer))...)
+		buffer = append(buffer, make([]Face, int(n)-len(buffer))...)
 	}
 	C.dracoMeshGetTrianglesUint32(m.ref, C.size_t(n*3*4), (*C.uint32_t)(unsafe.Pointer(&buffer[0])))
 	return buffer[:n]
+}
+
+func (m *Mesh) Attr(i int32) *PointAttr {
+	attr := C.dracoMeshGetAttribute(m.ref, C.int32_t(i))
+	if attr == nil {
+		return nil
+	}
+	return &PointAttr{ref: attr}
 }
 
 type Decoder struct {
