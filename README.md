@@ -24,7 +24,7 @@ This library can be used without any special setup other than having a CGO toolc
 ```go
 import (
   "io/ioutil"
-  "github.com/qmuntal/draco-go"
+  "github.com/qmuntal/draco-go/draco"
 )
 
 func main() {
