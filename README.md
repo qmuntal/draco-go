@@ -7,7 +7,7 @@ The Go-Draco package provides Go language bindings for [google/draco](https://gi
 
 The Go-Draco package supports the latest releases of Draco (v1.4.1) on Linux, macOS, and Windows.
 
-The CGO bindings uses a C API that is maintained in [qmuntal/draco-c](https://github.com/qmuntal/draco-c), as the Draco team do not have enough bandwidth to support it. See [google/draco#467](https://github.com/google/draco/pull/663#issuecomment-772802508) for more context.
+<p align="center"><img width="640" src="./assets/logo.png" alt="Gopher Draco"></p>
 
 ## Features
 
@@ -42,6 +42,8 @@ func main() {
 ```
 
 ## Development
+
+The CGO bindings uses a C API that is maintained in [qmuntal/draco-c](https://github.com/qmuntal/draco-c), as the Draco team do not have enough bandwidth to support it. See [google/draco#467](https://github.com/google/draco/pull/663#issuecomment-772802508) for more context.
 
 The libraries in `lib` have been built using: `cmake .. -DDRACO_POINT_CLOUD_COMPRESSION=ON -DDRACO_MESH_COMPRESSION=ON -DDRACO_STANDARD_EDGEBREAKER=ON -DCMAKE_BUILD_TYPE=Release`
 
