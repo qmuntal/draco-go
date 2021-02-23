@@ -1,12 +1,13 @@
 package draco
 
 /*
-#include "c_api.h"
+#include "packaged/include/c_api.h"
 */
 import "C"
 
 import (
 	"fmt"
+	"reflect"
 	"runtime"
 	"unsafe"
 )
@@ -38,6 +39,51 @@ const (
 	DT_FLOAT64
 	DT_BOOL
 )
+
+func (dt DataType) Size() uint32 {
+	switch dt {
+	case DT_INT8, DT_UINT8, DT_BOOL:
+		return 1
+	case DT_INT16, DT_UINT16:
+		return 2
+	case DT_INT32, DT_UINT32, DT_FLOAT32:
+		return 4
+	case DT_INT64, DT_UINT64, DT_FLOAT64:
+		return 8
+	default:
+		panic("draco-go: unsupported data type")
+	}
+}
+
+func (dt DataType) Type() reflect.Type {
+	reflect.TypeOf((*uint8)(nil))
+	switch dt {
+	case DT_BOOL:
+		return reflect.TypeOf((*bool)(nil)).Elem()
+	case DT_INT8:
+		return reflect.TypeOf((*int8)(nil)).Elem()
+	case DT_UINT8:
+		return reflect.TypeOf((*uint8)(nil)).Elem()
+	case DT_INT16:
+		return reflect.TypeOf((*int16)(nil)).Elem()
+	case DT_UINT16:
+		return reflect.TypeOf((*uint16)(nil)).Elem()
+	case DT_INT32:
+		return reflect.TypeOf((*int32)(nil)).Elem()
+	case DT_UINT32:
+		return reflect.TypeOf((*uint32)(nil)).Elem()
+	case DT_FLOAT32:
+		return reflect.TypeOf((*float32)(nil)).Elem()
+	case DT_INT64:
+		return reflect.TypeOf((*int64)(nil)).Elem()
+	case DT_UINT64:
+		return reflect.TypeOf((*uint64)(nil)).Elem()
+	case DT_FLOAT64:
+		return reflect.TypeOf((*float64)(nil)).Elem()
+	default:
+		panic("draco-go: unsupported data type")
+	}
+}
 
 type Face = [3]uint32
 
@@ -138,6 +184,56 @@ func (m *Mesh) Attr(i int32) *PointAttr {
 		return nil
 	}
 	return &PointAttr{ref: attr}
+}
+
+func (m *Mesh) AttrData(pa *PointAttr, buffer interface{}) (interface{}, bool) {
+	var dt DataType
+	n := m.NumPoints() * uint32(pa.NumComponents())
+	if buffer == nil {
+		dt = pa.DataType()
+		buffer = reflect.MakeSlice(reflect.SliceOf(dt.Type()), int(n), int(n)).Interface()
+	} else {
+		v := reflect.ValueOf(buffer)
+		if v.IsNil() {
+			return nil, false
+		}
+		if v.Kind() != reflect.Slice {
+			panic(fmt.Sprintf("draco-go: expecting a slice but got %s", v.Kind()))
+		}
+		l := v.Len()
+		switch buffer.(type) {
+		case []int8:
+			dt = DT_INT8
+		case []uint8:
+			dt = DT_UINT8
+		case []int16:
+			dt = DT_INT16
+		case []uint16:
+			dt = DT_UINT16
+		case []int32:
+			dt = DT_INT32
+		case []uint32:
+			dt = DT_UINT32
+		case []int64:
+			dt = DT_INT64
+		case []uint64:
+			dt = DT_UINT64
+		case []float32:
+			dt = DT_FLOAT32
+		case []float64:
+			dt = DT_FLOAT64
+		default:
+			panic("draco-go: unsupported data type")
+		}
+		if l < int(n) {
+			tmp := reflect.MakeSlice(reflect.SliceOf(dt.Type()), int(n)-l, int(n)-l).Interface()
+			buffer = reflect.AppendSlice(reflect.ValueOf(buffer), reflect.ValueOf(tmp)).Interface()
+		}
+	}
+	v := reflect.ValueOf(buffer).Index(0)
+	size := n * dt.Size()
+	ok := C.dracoMeshGetAttributeData(m.ref, pa.ref, C.dracoDataType(dt), C.size_t(size), unsafe.Pointer(v.UnsafeAddr()))
+	return buffer, bool(ok)
 }
 
 type Decoder struct {

@@ -4,7 +4,7 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/qmuntal/draco-go"
+	"github.com/qmuntal/draco-go/draco"
 )
 
 func main() {
