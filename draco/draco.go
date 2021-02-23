@@ -195,7 +195,7 @@ func (m *Mesh) AttrData(pa *PointAttr, buffer interface{}) (interface{}, bool) {
 	} else {
 		v := reflect.ValueOf(buffer)
 		if v.IsNil() {
-			return nil, false
+			buffer = reflect.MakeSlice(reflect.SliceOf(dt.Type()), int(n), int(n)).Interface()
 		}
 		if v.Kind() != reflect.Slice {
 			panic(fmt.Sprintf("draco-go: expecting a slice but got %s", v.Kind()))
