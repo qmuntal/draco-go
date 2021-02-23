@@ -59,11 +59,11 @@ func (m *Mesh) AttrData(pa *PointAttr, buffer interface{}) (interface{}, bool) {
 	n := m.NumPoints() * uint32(pa.NumComponents())
 	if buffer == nil {
 		dt = pa.DataType()
-		buffer = reflect.MakeSlice(reflect.SliceOf(dt.Type()), int(n), int(n)).Interface()
+		buffer = reflect.MakeSlice(reflect.SliceOf(dt.goType()), int(n), int(n)).Interface()
 	} else {
 		v := reflect.ValueOf(buffer)
 		if v.IsNil() {
-			buffer = reflect.MakeSlice(reflect.SliceOf(dt.Type()), int(n), int(n)).Interface()
+			buffer = reflect.MakeSlice(reflect.SliceOf(dt.goType()), int(n), int(n)).Interface()
 		}
 		if v.Kind() != reflect.Slice {
 			panic(fmt.Sprintf("draco-go: expecting a slice but got %s", v.Kind()))
@@ -94,7 +94,7 @@ func (m *Mesh) AttrData(pa *PointAttr, buffer interface{}) (interface{}, bool) {
 			panic("draco-go: unsupported data type")
 		}
 		if l < int(n) {
-			tmp := reflect.MakeSlice(reflect.SliceOf(dt.Type()), int(n)-l, int(n)-l).Interface()
+			tmp := reflect.MakeSlice(reflect.SliceOf(dt.goType()), int(n)-l, int(n)-l).Interface()
 			buffer = reflect.AppendSlice(reflect.ValueOf(buffer), reflect.ValueOf(tmp)).Interface()
 		}
 	}

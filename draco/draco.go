@@ -50,7 +50,7 @@ func (dt DataType) Size() uint32 {
 	}
 }
 
-func (dt DataType) Type() reflect.Type {
+func (dt DataType) goType() reflect.Type {
 	reflect.TypeOf((*uint8)(nil))
 	switch dt {
 	case DT_BOOL:
