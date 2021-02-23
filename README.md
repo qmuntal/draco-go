@@ -60,7 +60,7 @@ export CGO_LDFLAGS="-L/usr/local/lib -ldraco_c"
 Please note that you will need to run this line of code one time in your current session in order to build or run the code, in order to setup the needed ENV variables. Once you have done so, you can execute code that uses `draco-go` with your custom environment like this:
 
 ```bash
-go run -tags customenv ./example/decode
+go run -tags customenv ./examples/decode
 ```
 
 ## Third party notice
