@@ -1,5 +1,8 @@
 # DRACO GO API
 
+[![Build](https://github.com/qmuntal/draco-go/actions/workflows/test.yml/badge.svg)](https://github.com/qmuntal/draco-go/actions/workflows/test.yml)
+[![Go Reference](https://pkg.go.dev/badge/github.com/qmuntal/draco-go/draco.svg)](https://pkg.go.dev/github.com/qmuntal/draco-go/draco)
+
 The Go-Draco package provides Go language bindings for [google/draco](https://github.com/google/draco). Draco is a library for compressing and decompressing 3D geometric meshes and point clouds.
 
 The Go-Draco package supports the latest releases of Draco (v1.4.1) on Linux, macOS, and Windows.
@@ -49,7 +52,7 @@ By default `draco-go` is statically linked against the libraries provided in `/l
 For example:
 
 ```bash
-export CGO_LDFLAGS="-L/usr/local/lib -lcdraco"
+export CGO_LDFLAGS="-L/usr/local/lib -ldraco_c"
 ```
 
 Please note that you will need to run this line of code one time in your current session in order to build or run the code, in order to setup the needed ENV variables. Once you have done so, you can execute code that uses `draco-go` with your custom environment like this:
