@@ -50,7 +50,7 @@ func TestDecode(t *testing.T) {
 			t.Errorf("PointAttr.UniqueID got %d, want %d", got, i)
 		}
 	}
-	attr1 := m.Attr(0)
+	attr1 := m.AttrByID(0)
 	if _, ok := m.AttrData(attr1, nil); !ok {
 		t.Error("Mesh.AttrData failed")
 	}

@@ -54,6 +54,14 @@ func (m *Mesh) Attr(i int32) *PointAttr {
 	return &PointAttr{ref: attr}
 }
 
+func (m *Mesh) AttrByID(id uint32) *PointAttr {
+	attr := C.dracoMeshGetAttributeByUniqueId(m.ref, C.uint32_t(id))
+	if attr == nil {
+		return nil
+	}
+	return &PointAttr{ref: attr}
+}
+
 func (m *Mesh) AttrData(pa *PointAttr, buffer interface{}) (interface{}, bool) {
 	var dt DataType
 	n := m.NumPoints() * uint32(pa.NumComponents())
