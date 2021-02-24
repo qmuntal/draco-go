@@ -54,7 +54,7 @@ func (m *Mesh) Attr(i int32) *PointAttr {
 	return &PointAttr{ref: attr}
 }
 
-func (m *Mesh) AttrByID(id uint32) *PointAttr {
+func (m *Mesh) AttrByUniqueID(id uint32) *PointAttr {
 	attr := C.dracoMeshGetAttributeByUniqueId(m.ref, C.uint32_t(id))
 	if attr == nil {
 		return nil
