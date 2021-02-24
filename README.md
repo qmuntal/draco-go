@@ -1,4 +1,4 @@
-# DRACO GO API
+# Draco Go API
 
 [![Build](https://github.com/qmuntal/draco-go/actions/workflows/test.yml/badge.svg)](https://github.com/qmuntal/draco-go/actions/workflows/test.yml)
 [![Go Reference](https://pkg.go.dev/badge/github.com/qmuntal/draco-go/draco.svg)](https://pkg.go.dev/github.com/qmuntal/draco-go/draco)
