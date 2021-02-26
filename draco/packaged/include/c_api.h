@@ -15,6 +15,7 @@
 #ifndef DRACO_C_API_H_
 #define DRACO_C_API_H_
 
+#include <stddef.h>
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -35,22 +36,6 @@ extern "C" {
 #else
  #define EXPORT_API
 #endif  // defined(_WIN32)
-
-typedef const char* draco_string; // NULL terminated
-
-// draco::Status
-
-typedef struct draco_status draco_status;
-
-EXPORT_API void dracoStatusRelease(draco_status *status);
-
-EXPORT_API int dracoStatusCode(const draco_status *status);
-
-EXPORT_API bool dracoStatusOk(const draco_status *status);
-
-// Returns the status message.
-// The memory backing memory is valid meanwhile status is not released.
-EXPORT_API draco_string dracoStatusErrorMsg(const draco_status *status);
 
 // draco::GeometryAttribute::Type
 
@@ -80,6 +65,22 @@ typedef enum {
   DT_BOOL
 } dracoDataType;
 
+typedef const char* draco_string; // NULL terminated  
+
+// draco::Status
+
+typedef struct draco_status draco_status;
+
+EXPORT_API void dracoStatusRelease(draco_status *status);
+
+EXPORT_API int dracoStatusCode(const draco_status *status);
+
+EXPORT_API bool dracoStatusOk(const draco_status *status);
+
+EXPORT_API size_t dracoStatusErrorMsgLength(const draco_status *status);
+
+EXPORT_API size_t dracoStatusErrorMsg(const draco_status *status, char *msg, size_t length);
+
 // draco::PointAttribute
 
 typedef struct draco_point_attr draco_point_attr;
@@ -102,7 +103,6 @@ EXPORT_API uint32_t dracoPointAttrUniqueId(const draco_point_attr* pa);
 
 // draco::Mesh
 
-typedef uint32_t draco_face[3];
 typedef struct draco_mesh draco_mesh;
 
 EXPORT_API draco_mesh* dracoNewMesh();
@@ -133,11 +133,13 @@ EXPORT_API bool dracoMeshGetTrianglesUint32(const draco_mesh *mesh,
 
 EXPORT_API const draco_point_attr* dracoMeshGetAttribute(const draco_mesh *mesh, int32_t att_id);
 
+EXPORT_API int32_t dracoMeshGetNamedAttributeId(const draco_mesh *mesh, dracoDataType data_type);
+
 EXPORT_API const draco_point_attr* dracoMeshGetAttributeByUniqueId(const draco_mesh *mesh, uint32_t unique_id);
 
 EXPORT_API bool dracoMeshGetAttributeData(const draco_mesh *mesh,
                                           const draco_point_attr *pa,
-                                          const dracoDataType data_type,
+                                          dracoDataType data_type,
                                           const size_t out_size,
                                           void *out_values);
 

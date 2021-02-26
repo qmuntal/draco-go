@@ -5,6 +5,26 @@ import (
 	"testing"
 )
 
+func TestDecode_Error(t *testing.T) {
+	m := NewMesh()
+	d := NewDecoder()
+	err := d.DecodeMesh([]byte{1, 2, 3}, m)
+	if err == nil {
+		t.Fatal("Decode expecting error")
+	}
+	if err, ok := err.(*Error); ok {
+		if err.Code != -2 {
+			t.Errorf("Decode error want -2, got %v", err.Code)
+		}
+		want := "Failed to parse Draco header."
+		if err.Message != want {
+			t.Errorf("Decode error want %s, got %v", want, err.Message)
+		}
+	} else {
+		t.Errorf("Decode error is not an *Error: %v", err)
+	}
+}
+
 func TestDecode(t *testing.T) {
 	data, err := ioutil.ReadFile("./testdata/test_nm.obj.edgebreaker.cl4.2.2.drc")
 	if err != nil {

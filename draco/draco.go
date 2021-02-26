@@ -5,6 +5,7 @@ import "C"
 import (
 	"fmt"
 	"reflect"
+	"unsafe"
 )
 
 type GeometryType int
@@ -92,16 +93,18 @@ func (e *Error) Error() string {
 }
 
 func newError(s *C.draco_status) error {
+	defer C.dracoStatusRelease(s)
 	if C.dracoStatusOk(s) {
 		return nil
 	}
-	err := &Error{
+	errLen := C.dracoStatusErrorMsgLength(s)
+	errMsg := make([]C.char, errLen)
+	errMsgPtr := (*C.char)(unsafe.Pointer(&errMsg[0]))
+	C.dracoStatusErrorMsg(s, errMsgPtr, errLen)
+	return &Error{
 		Code:    int(C.dracoStatusCode(s)),
-		Message: C.GoString(C.dracoStatusErrorMsg(s)),
+		Message: C.GoStringN(errMsgPtr, C.int(errLen)-1),
 	}
-	C.dracoStatusRelease(s)
-	s = nil
-	return err
 }
 
 type PointAttr struct {
