@@ -54,6 +54,9 @@ func TestDecode(t *testing.T) {
 		if got := attr.Type(); got == GT_INVALID {
 			t.Error("PointAttr.Type got GT_INVALID")
 		}
+		if m.NamedAttributeId(attr.Type()) != i {
+			t.Error("PointAttr.Type and Mesh.NamedAttributeId mismatch")
+		}
 		if got := attr.DataType(); got == DT_INVALID {
 			t.Error("PointAttr.DataType got DT_INVALID")
 		}

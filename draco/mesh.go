@@ -62,6 +62,10 @@ func (m *Mesh) AttrByUniqueID(id uint32) *PointAttr {
 	return &PointAttr{ref: attr}
 }
 
+func (m *Mesh) NamedAttributeId(gt GeometryType) int32 {
+	return int32(C.dracoMeshGetNamedAttributeId(m.ref, C.draco_geometry_type(gt)))
+}
+
 func (m *Mesh) AttrData(pa *PointAttr, buffer interface{}) (interface{}, bool) {
 	var dt DataType
 	n := m.NumPoints() * uint32(pa.NumComponents())
@@ -108,6 +112,6 @@ func (m *Mesh) AttrData(pa *PointAttr, buffer interface{}) (interface{}, bool) {
 	}
 	v := reflect.ValueOf(buffer).Index(0)
 	size := n * dt.Size()
-	ok := C.dracoMeshGetAttributeData(m.ref, pa.ref, C.dracoDataType(dt), C.size_t(size), unsafe.Pointer(v.UnsafeAddr()))
+	ok := C.dracoMeshGetAttributeData(m.ref, pa.ref, C.draco_data_type(dt), C.size_t(size), unsafe.Pointer(v.UnsafeAddr()))
 	return buffer, bool(ok)
 }
