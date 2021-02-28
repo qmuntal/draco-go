@@ -101,9 +101,33 @@ EXPORT_API int64_t dracoPointAttrByteOffset(const draco_point_attr* pa);
 
 EXPORT_API uint32_t dracoPointAttrUniqueId(const draco_point_attr* pa);
 
+// draco::PointCloud
+
+typedef struct draco_point_cloud draco_point_cloud;
+
+EXPORT_API draco_point_cloud* dracoNewPointCloud();
+
+EXPORT_API void dracoPointCloudRelease(draco_point_cloud *pc);
+
+EXPORT_API uint32_t dracoPointCloudNumPoints(const draco_point_cloud *pc);
+
+EXPORT_API int32_t dracoPointCloudNumAttrs(const draco_point_cloud *pc);
+
+EXPORT_API const draco_point_attr* dracoPointCloudGetAttribute(const draco_point_cloud *pc, int32_t att_id);
+
+EXPORT_API int32_t dracoPointCloudGetNamedAttributeId(const draco_point_cloud *pc, draco_geometry_type geo_type);
+
+EXPORT_API const draco_point_attr* dracoPointCloudGetAttributeByUniqueId(const draco_point_cloud *pc, uint32_t unique_id);
+
+EXPORT_API bool dracoPointCloudGetAttributeData(const draco_point_cloud *pc,
+                                                const draco_point_attr *pa,
+                                                draco_data_type data_type,
+                                                const size_t out_size,
+                                                void *out_values);
+
 // draco::Mesh
 
-typedef struct draco_mesh draco_mesh;
+typedef struct draco_point_cloud draco_mesh;
 
 EXPORT_API draco_mesh* dracoNewMesh();
 
@@ -111,14 +135,10 @@ EXPORT_API void dracoMeshRelease(draco_mesh *mesh);
 
 EXPORT_API uint32_t dracoMeshNumFaces(const draco_mesh *mesh);
 
-EXPORT_API uint32_t dracoMeshNumPoints(const draco_mesh *mesh);
-
-EXPORT_API int32_t dracoMeshNumAttrs(const draco_mesh *mesh);
-
 // Queries an array of 3*face_count elements containing the triangle indices.
 // out_values must be allocated to contain at least 3*face_count uint16_t elements.
 // out_size must be exactly 3*face_count*sizeof(uint16_t), else out_values
-// won´t be filled and returns false.
+// won't be filled and returns false.
 EXPORT_API bool dracoMeshGetTrianglesUint16(const draco_mesh *mesh,
                                             const size_t out_size,
                                             uint16_t *out_values);
@@ -126,22 +146,10 @@ EXPORT_API bool dracoMeshGetTrianglesUint16(const draco_mesh *mesh,
 // Queries an array of 3*face_count elements containing the triangle indices.
 // out_values must be allocated to contain at least 3*face_count uint32_t elements.
 // out_size must be exactly 3*face_count*sizeof(uint32_t), else out_values
-// won´t be filled and returns false.
+// won't be filled and returns false.
 EXPORT_API bool dracoMeshGetTrianglesUint32(const draco_mesh *mesh,
                                             const size_t out_size,
                                             uint32_t *out_values);
-
-EXPORT_API const draco_point_attr* dracoMeshGetAttribute(const draco_mesh *mesh, int32_t att_id);
-
-EXPORT_API int32_t dracoMeshGetNamedAttributeId(const draco_mesh *mesh, draco_geometry_type geo_type);
-
-EXPORT_API const draco_point_attr* dracoMeshGetAttributeByUniqueId(const draco_mesh *mesh, uint32_t unique_id);
-
-EXPORT_API bool dracoMeshGetAttributeData(const draco_mesh *mesh,
-                                          const draco_point_attr *pa,
-                                          draco_data_type data_type,
-                                          const size_t out_size,
-                                          void *out_values);
 
 // draco::Decoder
 
@@ -151,10 +159,16 @@ EXPORT_API draco_decoder* dracoNewDecoder();
 
 EXPORT_API void dracoDecoderRelease(draco_decoder *decoder);
 
-EXPORT_API draco_status* dracoDecoderArrayToMesh(draco_decoder *decoder, 
-                                                 const char *data, 
-                                                 size_t data_size,
-                                                 draco_mesh *out_mesh);
+EXPORT_API draco_status* dracoDecoderDecodeMesh(draco_decoder *decoder, 
+                                                const char *data, 
+                                                size_t data_size,
+                                                draco_mesh *out_mesh);
+
+                                                 
+EXPORT_API draco_status* dracoDecoderDecodePointCloud(draco_decoder *decoder, 
+                                                       const char *data, 
+                                                       size_t data_size,
+                                                       draco_point_cloud *out_pc);
 
 #ifdef __cplusplus
 }

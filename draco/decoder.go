@@ -24,6 +24,11 @@ func NewDecoder() *Decoder {
 }
 
 func (d *Decoder) DecodeMesh(data []byte, m *Mesh) error {
-	s := C.dracoDecoderArrayToMesh(d.ref, (*C.char)(unsafe.Pointer(&data[0])), C.size_t(len(data)), m.ref)
+	s := C.dracoDecoderDecodeMesh(d.ref, (*C.char)(unsafe.Pointer(&data[0])), C.size_t(len(data)), m.ref)
+	return newError(s)
+}
+
+func (d *Decoder) DecodePointCloud(data []byte, pc *PointCloud) error {
+	s := C.dracoDecoderDecodePointCloud(d.ref, (*C.char)(unsafe.Pointer(&data[0])), C.size_t(len(data)), pc.ref)
 	return newError(s)
 }
