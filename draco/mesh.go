@@ -62,7 +62,7 @@ func (m *Mesh) AttrByUniqueID(id uint32) *PointAttr {
 	return &PointAttr{ref: attr}
 }
 
-func (m *Mesh) NamedAttributeId(gt GeometryType) int32 {
+func (m *Mesh) NamedAttributeID(gt GeometryType) int32 {
 	return int32(C.dracoMeshGetNamedAttributeId(m.ref, C.draco_geometry_type(gt)))
 }
 
