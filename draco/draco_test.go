@@ -8,7 +8,7 @@ import (
 func TestDecode_Error(t *testing.T) {
 	m := NewMesh()
 	d := NewDecoder()
-	err := d.DecodeMesh([]byte{1, 2, 3}, m)
+	err := d.DecodeMesh(m, []byte{1, 2, 3})
 	if err == nil {
 		t.Fatal("Decode expecting error")
 	}
@@ -35,7 +35,7 @@ func TestDecode(t *testing.T) {
 	}
 	m := NewMesh()
 	d := NewDecoder()
-	if err := d.DecodeMesh(data, m); err != nil {
+	if err := d.DecodeMesh(m, data); err != nil {
 		t.Fatalf("failed to decode mesh: %v", err)
 	}
 	if n := m.NumFaces(); n != 170 {
