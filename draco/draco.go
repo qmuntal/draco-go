@@ -8,15 +8,23 @@ import (
 	"unsafe"
 )
 
-type GeometryType int
+type EncodedGeometryType int
 
 const (
-	GT_INVALID GeometryType = iota - 1
-	GT_POSITION
-	GT_NORMAL
-	GT_COLOR
-	GT_TEX_COORD
-	GT_GENERIC
+	EGT_INVALID EncodedGeometryType = iota - 1
+	EGT_POINT_CLOUD
+	EGT_TRIANGULAR_MESH
+)
+
+type GeometryAttrType int
+
+const (
+	GAT_INVALID GeometryAttrType = iota - 1
+	GAT_POSITION
+	GAT_NORMAL
+	GAT_COLOR
+	GAT_TEX_COORD
+	GAT_GENERIC
 )
 
 type DataType int
@@ -111,8 +119,8 @@ type PointAttr struct {
 	ref *C.draco_point_attr
 }
 
-func (pa *PointAttr) Type() GeometryType {
-	return GeometryType(C.dracoPointAttrType(pa.ref))
+func (pa *PointAttr) Type() GeometryAttrType {
+	return GeometryAttrType(C.dracoPointAttrType(pa.ref))
 }
 
 func (pa *PointAttr) DataType() DataType {
