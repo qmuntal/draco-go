@@ -37,32 +37,40 @@ extern "C" {
  #define EXPORT_API
 #endif  // defined(_WIN32)
 
+// draco::EncodedGeometryType
+
+typedef enum {
+  DRACO_EGT_INVALID = -1,
+  DRACO_EGT_POINT_CLOUD,
+  DRACO_EGT_TRIANGULAR_MESH
+} draco_encoded_geometry_type;
+
 // draco::GeometryAttribute::Type
 
 typedef enum {
-    GT_INVALID = -1,
-    GT_POSITION,
-    GT_NORMAL,
-    GT_COLOR,
-    GT_TEX_COORD,
-    GT_GENERIC
-} draco_geometry_type;
+    DRACO_GAT_INVALID = -1,
+    DRACO_GAT_POSITION,
+    DRACO_GAT_NORMAL,
+    DRACO_GAT_COLOR,
+    DRACO_GAT_TEX_COORD,
+    DRACO_GAT_GENERIC
+} draco_geometry_attr_type;
 
 // draco::DataType
 
 typedef enum {
-  DT_INVALID,
-  DT_INT8,
-  DT_UINT8,
-  DT_INT16,
-  DT_UINT16,
-  DT_INT32,
-  DT_UINT32,
-  DT_INT64,
-  DT_UINT64,
-  DT_FLOAT32,
-  DT_FLOAT64,
-  DT_BOOL
+  DRACO_DT_INVALID,
+  DRACO_DT_INT8,
+  DRACO_DT_UINT8,
+  DRACO_DT_INT16,
+  DRACO_DT_UINT16,
+  DRACO_DT_INT32,
+  DRACO_DT_UINT32,
+  DRACO_DT_INT64,
+  DRACO_DT_UINT64,
+  DRACO_DT_FLOAT32,
+  DRACO_DT_FLOAT64,
+  DRACO_DT_BOOL
 } draco_data_type;
 
 typedef const char* draco_string; // NULL terminated  
@@ -87,7 +95,7 @@ typedef struct draco_point_attr draco_point_attr;
 
 EXPORT_API size_t dracoPointAttrSize(const draco_point_attr* pa);
 
-EXPORT_API draco_geometry_type dracoPointAttrType(const draco_point_attr* pa);
+EXPORT_API draco_geometry_attr_type dracoPointAttrType(const draco_point_attr* pa);
 
 EXPORT_API draco_data_type dracoPointAttrDataType(const draco_point_attr* pa);
 
@@ -115,7 +123,7 @@ EXPORT_API int32_t dracoPointCloudNumAttrs(const draco_point_cloud *pc);
 
 EXPORT_API const draco_point_attr* dracoPointCloudGetAttribute(const draco_point_cloud *pc, int32_t att_id);
 
-EXPORT_API int32_t dracoPointCloudGetNamedAttributeId(const draco_point_cloud *pc, draco_geometry_type geo_type);
+EXPORT_API int32_t dracoPointCloudGetNamedAttributeId(const draco_point_cloud *pc, draco_geometry_attr_type geo_type);
 
 EXPORT_API const draco_point_attr* dracoPointCloudGetAttributeByUniqueId(const draco_point_cloud *pc, uint32_t unique_id);
 
@@ -136,22 +144,16 @@ EXPORT_API void dracoMeshRelease(draco_mesh *mesh);
 EXPORT_API uint32_t dracoMeshNumFaces(const draco_mesh *mesh);
 
 // Queries an array of 3*face_count elements containing the triangle indices.
-// out_values must be allocated to contain at least 3*face_count uint16_t elements.
-// out_size must be exactly 3*face_count*sizeof(uint16_t), else out_values
-// won't be filled and returns false.
-EXPORT_API bool dracoMeshGetTrianglesUint16(const draco_mesh *mesh,
-                                            const size_t out_size,
-                                            uint16_t *out_values);
-
-// Queries an array of 3*face_count elements containing the triangle indices.
 // out_values must be allocated to contain at least 3*face_count uint32_t elements.
 // out_size must be exactly 3*face_count*sizeof(uint32_t), else out_values
 // won't be filled and returns false.
-EXPORT_API bool dracoMeshGetTrianglesUint32(const draco_mesh *mesh,
-                                            const size_t out_size,
-                                            uint32_t *out_values);
+EXPORT_API bool dracoMeshGetIndices(const draco_mesh *mesh,
+                                    const size_t out_size,
+                                    uint32_t *out_values);
 
 // draco::Decoder
+
+EXPORT_API draco_encoded_geometry_type dracoGetEncodedGeometryType(const char *data, size_t data_size);
 
 typedef struct draco_decoder draco_decoder;
 
