@@ -32,6 +32,6 @@ func (m *Mesh) Faces(buffer []Face) []Face {
 	if len(buffer) < int(n) {
 		buffer = append(buffer, make([]Face, int(n)-len(buffer))...)
 	}
-	C.dracoMeshGetTrianglesUint32(m.ref, C.size_t(n*3*4), (*C.uint32_t)(unsafe.Pointer(&buffer[0])))
+	C.dracoMeshGetIndices(m.ref, C.size_t(n*3*4), (*C.uint32_t)(unsafe.Pointer(&buffer[0])))
 	return buffer[:n]
 }

@@ -7,6 +7,11 @@ import (
 	"unsafe"
 )
 
+func GetEncodedGeometryType(data []byte) EncodedGeometryType {
+	egt := C.dracoGetEncodedGeometryType((*C.char)(unsafe.Pointer(&data[0])), C.size_t(len(data)))
+	return EncodedGeometryType(egt)
+}
+
 type Decoder struct {
 	ref *C.draco_decoder
 }

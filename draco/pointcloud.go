@@ -49,8 +49,8 @@ func (pc *PointCloud) AttrByUniqueID(id uint32) *PointAttr {
 	return &PointAttr{ref: attr}
 }
 
-func (pc *PointCloud) NamedAttributeID(gt GeometryType) int32 {
-	return int32(C.dracoPointCloudGetNamedAttributeId(pc.ref, C.draco_geometry_type(gt)))
+func (pc *PointCloud) NamedAttributeID(gt GeometryAttrType) int32 {
+	return int32(C.dracoPointCloudGetNamedAttributeId(pc.ref, C.draco_geometry_attr_type(gt)))
 }
 
 func (pc *PointCloud) AttrData(pa *PointAttr, buffer interface{}) (interface{}, bool) {

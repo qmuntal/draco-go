@@ -30,6 +30,9 @@ func TestDecode(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to read test file: %v", err)
 	}
+	if got := GetEncodedGeometryType(data); got != EGT_TRIANGULAR_MESH {
+		t.Errorf("GetEncodedGeometryType want EGT_TRIANGULAR_MESH, got %v", got)
+	}
 	m := NewMesh()
 	d := NewDecoder()
 	if err := d.DecodeMesh(data, m); err != nil {
@@ -51,7 +54,7 @@ func TestDecode(t *testing.T) {
 	}
 	for i := int32(0); i < m.NumAttrs(); i++ {
 		attr := m.Attr(i)
-		if got := attr.Type(); got == GT_INVALID {
+		if got := attr.Type(); got == GAT_INVALID {
 			t.Error("PointAttr.Type got GT_INVALID")
 		}
 		if m.NamedAttributeID(attr.Type()) != i {
