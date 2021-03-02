@@ -95,10 +95,12 @@ func (pc *PointCloud) AttrData(pa *PointAttr, buffer interface{}) (interface{}, 
 		if l < int(n) {
 			tmp := reflect.MakeSlice(reflect.SliceOf(dt.goType()), int(n)-l, int(n)-l).Interface()
 			buffer = reflect.AppendSlice(reflect.ValueOf(buffer), reflect.ValueOf(tmp)).Interface()
+		} else if l > int(n) {
+			buffer = v.Slice(0, int(n)).Interface()
 		}
 	}
-	v := reflect.ValueOf(buffer).Index(0)
-	size := n * dt.Size()
-	ok := C.dracoPointCloudGetAttributeData(pc.ref, pa.ref, C.draco_data_type(dt), C.size_t(size), unsafe.Pointer(v.UnsafeAddr()))
+	size := C.size_t(n * dt.Size())
+	v := reflect.ValueOf(buffer)
+	ok := C.dracoPointCloudGetAttributeData(pc.ref, pa.ref, C.draco_data_type(dt), size, unsafe.Pointer(v.Pointer()))
 	return buffer, bool(ok)
 }
