@@ -48,8 +48,8 @@ func TestDecode(t *testing.T) {
 		t.Errorf("Mesh.NumFaces want 2, got %d", n)
 	}
 	faces := m.Faces(nil)
-	want := [3]uint32{0, 1, 2}
-	if got := faces[0]; got != want {
+	want := []uint32{0, 1, 2}
+	if got := faces[2]; got != want[2] {
 		t.Errorf("Mesh.Faces[0] want %v, got %v", want, got)
 	}
 	for i := int32(0); i < m.NumAttrs(); i++ {
@@ -87,6 +87,9 @@ func TestDecode(t *testing.T) {
 		t.Error("Mesh.AttrData failed")
 	}
 	if _, ok := m.AttrData(attr1, []int32{1, 2, 3}); !ok {
+		t.Error("Mesh.AttrData failed")
+	}
+	if _, ok := m.AttrData(attr1, make([]float64, 1000)); !ok {
 		t.Error("Mesh.AttrData failed")
 	}
 }

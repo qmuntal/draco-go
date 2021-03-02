@@ -60,7 +60,6 @@ func (dt DataType) Size() uint32 {
 }
 
 func (dt DataType) goType() reflect.Type {
-	reflect.TypeOf((*uint8)(nil))
 	switch dt {
 	case DT_BOOL:
 		return reflect.TypeOf((*bool)(nil)).Elem()
@@ -88,8 +87,6 @@ func (dt DataType) goType() reflect.Type {
 		panic("draco-go: unsupported data type")
 	}
 }
-
-type Face = [3]uint32
 
 type Error struct {
 	Code    int
