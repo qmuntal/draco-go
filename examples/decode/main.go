@@ -14,19 +14,10 @@ func main() {
 	}
 	m := draco.NewMesh()
 	d := draco.NewDecoder()
-	if err := d.DecodeMesh(data, m); err != nil {
+	if err := d.DecodeMesh(m, data); err != nil {
 		log.Fatalf("failed to decode mesh: %v", err)
 	}
-	log.Println(m.NumFaces())
-	if n := m.NumFaces(); n != 170 {
-		log.Fatalf("Mesh.NumFaces got 170, got %d", n)
-	}
-	if n := m.NumPoints(); n != 99 {
-		log.Fatalf("Mesh.NumFaces got 99, got %d", n)
-	}
-	faces := m.Faces(nil)
-	want := [3]uint32{0, 1, 2}
-	if got := faces[0]; got != want {
-		log.Fatalf("Mesh.Faces[0] got %v, got %v", want, got)
-	}
+	log.Println("point count:", m.NumPoints())
+	log.Println("face count:", m.NumFaces())
+	log.Println("faces:", m.Faces(nil))
 }
