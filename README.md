@@ -14,6 +14,7 @@ The Go-Draco package supports the latest releases of Draco (v1.4.1) on Linux, ma
 - Mesh decoding
 - Mesh inspection
 - Pre-compiled static libraries for windows and linux
+- gltf extension for `github.com/qmuntal/gltf`
 
 ## Usage
 
@@ -38,6 +39,27 @@ func main() {
   for i, f := range faces {
     fmt.Printf("%d: %v\n", i, f)
   }
+}
+```
+
+### glTF decoding
+
+```go
+package main
+
+import (
+  "fmt"
+  "github.com/qmuntal/gltf"
+  "github.com/qmuntal/draco-go/gltf/draco"
+)
+
+func main() {
+  doc, _err_ := gltf.Open("testdata/box/Box.gltf")
+  pd, _ := draco.UnmarshalMesh(doc, doc.BufferViews[0])
+  p := doc.Meshes[0].Primitives[0]
+  fmt.Println(pd.ReadIndices(nil))
+  fmt.Println(pd.ReadAttr(p, "POSITION", nil))
+  fmt.Println(pd.ReadAttr(p, "NORMAL", nil))
 }
 ```
 
