@@ -14,7 +14,7 @@ The Go-Draco package supports the latest releases of Draco (v1.4.1) on Linux, ma
 - Mesh decoding
 - Mesh inspection
 - Pre-compiled static libraries for windows and linux
-- gltf extension for `github.com/qmuntal/gltf`
+- gltf extension for [qmuntal/gltf](https://github.com/qmuntal/gltf)
 
 ## Usage
 
