@@ -16,7 +16,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Build Test
-      run: go test -c -covermode atomic -o draco.test .
+      run: go test -c -covermode atomic -o ./draco.test .
       working-directory: ./draco
     - name: Run Test
       run: ./draco.test -test.coverprofile ../profile.cov
