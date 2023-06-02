@@ -16,10 +16,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Build Test
-      bash: go test -c -covermode atomic -o ./draco.test .
+      run: go test -c -covermode atomic -o ./draco.test .
       working-directory: ./draco
     - name: Run Test
-      bash: ./draco.test -test.coverprofile ../profile.cov
+      run: ./draco.test -test.coverprofile ../profile.cov
       working-directory: ./draco
     - name: Send coverage
       uses: shogo82148/actions-goveralls@v1
