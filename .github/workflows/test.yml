@@ -17,7 +17,6 @@ jobs:
       uses: actions/checkout@v2
     - name: Build Test
       run: go test -c -o draco.test ./draco
-    - run: dumpbin /dependents draco.test
     - name: Run Test
       run: draco.test -test.covermode atomic -test.coverprofile profile.cov
     - name: Send coverage
