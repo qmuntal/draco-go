@@ -18,7 +18,7 @@ jobs:
     - name: Build Test
       run: go test -c -covermode atomic -o draco.test ./draco
     - name: Run Test
-      run: draco.test -test.coverprofile profile.cov
+      run: ./draco.test -test.coverprofile profile.cov
     - name: Send coverage
       uses: shogo82148/actions-goveralls@v1
       with:
