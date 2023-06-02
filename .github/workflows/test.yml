@@ -17,6 +17,8 @@ jobs:
       uses: actions/checkout@v2
     - name: Test
       run: go test -race -covermode atomic -coverprofile profile.cov ./...
+      env:
+        GOTRACEBACK: all
     - name: Send coverage
       uses: shogo82148/actions-goveralls@v1
       with:
