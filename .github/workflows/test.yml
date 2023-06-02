@@ -15,6 +15,7 @@ jobs:
         go-version: ${{ matrix.go-version }}
     - name: Checkout code
       uses: actions/checkout@v2
+    - run: gcc --version
     - name: Test
       run: go test -covermode atomic -coverprofile profile.cov ./...
       env:
