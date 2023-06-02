@@ -5,7 +5,7 @@
 
 The Go-Draco package provides Go language bindings for [google/draco](https://github.com/google/draco). Draco is a library for compressing and decompressing 3D geometric meshes and point clouds.
 
-The Go-Draco package supports the latest releases of Draco (v1.4.1) on Linux, macOS, and Windows.
+The Go-Draco package supports the latest releases of Draco (v1.5.6) on Linux, macOS, and Windows.
 
 <p align="center"><img width="640" src="./assets/logo.png" alt="Gopher Draco"></p>
 
