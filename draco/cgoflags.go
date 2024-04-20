@@ -1,3 +1,4 @@
+//go:build !customenv
 // +build !customenv
 
 package draco

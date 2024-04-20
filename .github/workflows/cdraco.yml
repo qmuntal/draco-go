@@ -2,7 +2,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'qmuntal/draco tag to clone'     
+        description: 'qmuntal/draco-c tag to clone'     
         required: true
 name: CDraco
 jobs:
